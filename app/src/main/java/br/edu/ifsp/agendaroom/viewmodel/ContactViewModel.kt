@@ -24,4 +24,8 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
     fun insert(contact: Contact) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(contact)
     }
+
+    fun getContactById(id: Int) = viewModelScope.launch {
+        contact = repository.getContactById(id)
+    }
 }

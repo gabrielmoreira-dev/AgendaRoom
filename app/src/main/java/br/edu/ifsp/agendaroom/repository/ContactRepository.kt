@@ -8,4 +8,6 @@ class ContactRepository(private val contactDao: ContactDao) {
     suspend fun insert(contact: Contact) = contactDao.insert(contact)
 
     fun getAllContacts() = contactDao.getAllContacts()
+
+    fun getContactById(id: Int) = contactDao.getContactById(id)
 }

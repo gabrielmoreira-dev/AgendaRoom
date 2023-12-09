@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,5 +49,17 @@ class ContactListFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = contactAdapter
         }
+        setOnClickItemListener()
+    }
+
+    private fun setOnClickItemListener() = object : ContactAdapter.ContactListener {
+        override fun onClick(pos: Int) = onItemClicked(pos)
+    }.apply {
+        contactAdapter.setClickListener(this)
+    }
+
+    private fun onItemClicked(pos: Int) = Bundle().let {
+        it.putInt("contactId", contactAdapter.contactList[pos].id)
+        findNavController().navigate(R.id.action_contactListFragment_to_detailFragment, it)
     }
 }

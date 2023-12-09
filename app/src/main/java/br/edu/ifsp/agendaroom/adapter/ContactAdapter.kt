@@ -8,11 +8,16 @@ import br.edu.ifsp.agendaroom.databinding.ContactCellBinding
 
 class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
     private lateinit var binding: ContactCellBinding
-    private var contactList = ArrayList<Contact>()
+    var contactList = ArrayList<Contact>()
+    private var listener: ContactListener? = null
 
     fun updateList(newList: ArrayList<Contact>) {
         contactList = newList
         notifyDataSetChanged()
+    }
+
+    fun setClickListener(listener: ContactListener) {
+        this.listener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -30,5 +35,15 @@ class ContactAdapter: RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
     inner class ContactViewHolder(view: ContactCellBinding): RecyclerView.ViewHolder(view.root) {
         val name = view.name
         val phone = view.phone
+
+        init {
+            view.root.setOnClickListener {
+                listener?.onClick(adapterPosition)
+            }
+        }
+    }
+
+    interface ContactListener {
+        fun onClick(pos: Int)
     }
 }
