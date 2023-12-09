@@ -13,10 +13,12 @@ import kotlinx.coroutines.launch
 class ContactViewModel(application: Application): AndroidViewModel(application) {
     private val repository: ContactRepository
     lateinit var contact: LiveData<Contact>
+    var allContacts: LiveData<List<Contact>>
 
     init {
         val dao = ContactDatabase.getDatabase(application).contactDAO()
         repository = ContactRepository(dao)
+        allContacts = repository.getAllContacts()
     }
 
     fun insert(contact: Contact) = viewModelScope.launch(Dispatchers.IO) {
